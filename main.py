@@ -4,8 +4,13 @@ from discord.ext import commands
 import datetime
 import asyncio
 
+# Set up the intents with a value of 268568656
+intents = discord.Intents.default()
+intents.presences = True
+intents.members = True
 
-bot = commands.Bot(command_prefix='!', intents = discord.Intents(value = 268568656))
+# Create the bot, set the command prefix, and set the intents
+bot = commands.Bot(command_prefix='!', intents = intents)
 
 # Store the alarms in a list
 alarms = []
