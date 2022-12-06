@@ -1,9 +1,11 @@
+import os
 import discord
 from discord.ext import commands
 import datetime
 import asyncio
 
-bot = commands.Bot(command_prefix='!')
+
+bot = commands.Bot(command_prefix='!', intents = discord.Intents(value = 268568656))
 
 # Store the alarms in a list
 alarms = []
@@ -75,4 +77,4 @@ async def run_alarm(alarm_time, role):
         # Sleep for one day, then check again
         await asyncio.sleep(24 * 60 * 60)
 
-bot.run('MTA0ODg5NjY4MTE4MzMwMTY0Mg.GZNSaV.FoBXqZQJrPxTxv-P9R-exUMAA2XyCEyY6SzCvk')
+bot.run(os.environ['TOKEN'])
