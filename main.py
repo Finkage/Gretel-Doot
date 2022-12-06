@@ -75,4 +75,4 @@ async def run_alarm(alarm_time, role):
         # Sleep for one day, then check again
         await asyncio.sleep(24 * 60 * 60)
 
-bot.run('YOUR_BOT_TOKEN')
+bot.run('MTA0ODg5NjY4MTE4MzMwMTY0Mg.GZNSaV.FoBXqZQJrPxTxv-P9R-exUMAA2XyCEyY6SzCvk')
