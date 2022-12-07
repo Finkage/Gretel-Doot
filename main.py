@@ -8,6 +8,9 @@ import asyncio
 intents = discord.Intents.default()
 intents.presences = True
 intents.members = True
+intents.message_content = True
+intents.messages = True
+intents.reactions = True
 
 # Create the bot, set the command prefix, and set the intents
 bot = commands.Bot(command_prefix='!', intents = intents)
@@ -19,10 +22,11 @@ alarms = []
 async def on_ready():
     print(f'{bot.user} has connected to Discord!')
 
-@bot.command()
+
+@bot.command(usage='!setalarm <time> <role>')
 async def setalarm(ctx, time, *, role):
     # Convert the time string to a datetime object
-    alarm_time = datetime.datetime.strptime(time, '%Y-%m-%d %H:%M')
+    alarm_time = datetime.datetime.strptime(time, '%Y-%m-%d-%H:%M')
 
     # Check if the given role exists in the guild
     role_obj = discord.utils.get(ctx.guild.roles, name=role)
@@ -34,9 +38,11 @@ async def setalarm(ctx, time, *, role):
     alarms.append({'time': alarm_time, 'role': role_obj})
 
     # Start a new task to run the alarm
-    asyncio.create_task(run_alarm(alarm_time, role_obj))
+    asyncio.create_task(run_alarm(ctx, alarm_time, role_obj))
 
-@bot.command()
+
+
+@bot.command(usage='!deletealarm <time>')
 async def deletealarm(ctx, time):
     # Convert the time string to a datetime object
     alarm_time = datetime.datetime.strptime(time, '%Y-%m-%d %H:%M')
@@ -51,7 +57,8 @@ async def deletealarm(ctx, time):
     # If the alarm is not found, send an error message
     await ctx.send(f'Error: Alarm at {time} not found.')
 
-@bot.command()
+
+@bot.command(usage='!adjustalarms <forward/backward>')
 async def adjustalarms(ctx, direction):
     # Check if the direction is "forward" or "backward"
     if direction != 'forward' and direction != 'backward':
@@ -68,7 +75,9 @@ async def adjustalarms(ctx, direction):
     # Send a message confirming that the alarms have been adjusted
     await ctx.send(f'All alarms adjusted {direction} one hour.')
 
-async def run_alarm(alarm_time, role):
+
+
+async def run_alarm(ctx, alarm_time, role):
     # Set up a while loop that runs until the alarm time is reached
     while True:
         # Calculate the time difference between now and the alarm time
@@ -81,5 +90,10 @@ async def run_alarm(alarm_time, role):
 
         # Sleep for one day, then check again
         await asyncio.sleep(24 * 60 * 60)
+
+
+@bot.command()
+async def test(ctx, arg):
+    await ctx.send(arg)
 
 bot.run(os.environ['TOKEN'])
