@@ -85,7 +85,7 @@ async def deletealarm(ctx, time):
     # If the alarm is not found, send an error message
     await ctx.send(f'Error: Alarm at {time} not found.')
 
-# allows for alarms to be adjusted come DST changes
+# allows for alarms to be adjusted come DST changes !!!! NEEDS TO BE FIXED TO REFLECT THIS CHANGE IN RUNNING TASKS
 @bot.command(usage='!adjustalarms <forward/backward>')
 async def adjustalarms(ctx, direction):
     # Check if the direction is "forward" or "backward"
